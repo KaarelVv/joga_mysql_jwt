@@ -1,0 +1,22 @@
+const express = require('express')
+const { requireAuth, requireRole } = require('../utils/auth')
+
+class UserRoutes {
+    constructor(userController) {
+        this.router = express.Router()
+        this.userController = userController
+        this.registerRoutes()
+    }
+
+    registerRoutes() {
+        this.router.post('/login', this.userController.login.bind(this.userController))
+        this.router.post('/register', this.userController.register.bind(this.userController))
+        this.router.post('/logout', this.userController.logout.bind(this.userController))
+
+        this.router.get('/users/:id', this.userController.getUserById.bind(this.userController))
+        this.router.post('/users', this.userController.createUser.bind(this.userController))
+        this.router.put('/users/:id', this.userController.updateUser.bind(this.userController))
+    }
+}
+
+module.exports = UserRoutes
